@@ -1,0 +1,9 @@
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\Model.dll
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\Model.pdb
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\EntityFramework.dll
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\EntityFramework.SqlServer.dll
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\EntityFramework.xml
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\EntityFramework.SqlServer.xml
+D:\proyectosPruebas\WEB_2\Model\obj\Debug\Model.dll
+D:\proyectosPruebas\WEB_2\Model\obj\Debug\Model.pdb
+D:\proyectosPruebas\WEB_2\Model\bin\Debug\Model.dll.config

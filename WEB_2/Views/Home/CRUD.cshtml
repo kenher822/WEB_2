@@ -1,0 +1,134 @@
+﻿@model Model.ALUMNO
+@{
+    ViewBag.Title = Model.ID > 0 ? Model.NOMBRE + " " + Model.APELLIDO : " || Nuevo Registro";
+    List<Model.CURSO> cursos = ViewBag.Cursos;
+}
+
+@using (Html.BeginForm("Guardar", "Home", FormMethod.Post, new { id = "frm-alumno" }))
+{
+    @Html.HiddenFor(x => x.ID)
+    <ol class="breadcrumb">
+        <li><a href="~/">Alumnos</a></li>
+        <li class="active">@(Model.ID > 0 ? Model.NOMBRE + " " + Model.APELLIDO : "Nuevo Registro")</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Información general</div>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.NOMBRE, null, new { @class = "label label-danger" })
+                <br />
+                @Html.LabelFor(x => x.NOMBRE)
+                @Html.TextBoxFor(x => x.NOMBRE, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.APELLIDO, null, new { @class = "label label-danger" })
+                <br />
+                @Html.LabelFor(x => x.APELLIDO)
+                @Html.TextBoxFor(x => x.APELLIDO, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Cursos disponibles</div>
+
+        <br />
+        <div class="panel-body">
+            <ul class="list-group">
+                @foreach (var c in cursos)
+                {
+                    var tomado = false;
+                    foreach (var c2 in Model.CURSOS)
+                    {
+                        if (c.ID == c2.ID)
+                        {
+                            tomado = true;
+                            break;
+                        }
+                    }
+                    <li class="list-group-item">
+                        <label>
+                            <input type="checkbox" @(tomado ? "checked" : "") name="cursos_seleccionados" value="@c.ID"> @c.NOMBRE
+                        </label>
+                    </li>
+                }
+            </ul>
+            @Html.ValidationMessage("cursos-elegidos", new { @class = "label label-danger", id = "cursos-validacion" })
+        </div>
+    </div>
+    <div class="text-right">
+        @if (Model.ID > 0)
+        {
+            <a onclick="return confirm('¿Esta seguro de eliminar el registro?')" href="~/Home/Eliminar/@Model.ID" class="btn btn-danger">Eliminar</a>
+        }
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#frm-alumno").submit(function () {
+                var form = $(this);
+
+                if (form.validate()) {
+                    form.ajaxSubmit({
+                        dataType: 'JSON',
+                        type: 'POST',
+                        url: @Url.Content("action"),
+                        success: function (r) {
+                            //block.remove();
+                            //if (r.response) {
+                            //    if (!button.data('reset') != undefined) {
+                            //        if (button.data('reset')) form.reset();
+                            //    }
+                            //    else {
+                            //        form.find('input:file').val('');
+                            //    }
+                            //}
+
+                            //// Mostrar mensaje
+                            //if (r.message != null) {
+                            //    if (r.message.length > 0) {
+                            //        var css = "";
+                            //        if (r.response) css = "alert-success";
+                            //        else css = "alert-danger";
+
+                            //        var message = '<div class = "alert ' + css + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+                            //        form.prepend(message);
+                            //    }
+                            //}
+
+                            //// Ejecutar funciones
+                            //if (r.function != null) {
+                            //    setTimeout(r.Function, 0);
+                            //}
+
+                            // Redireccionar
+                            //if (r.href != null) {
+                            //    if(r.href == 'self') window.location.reload(true);
+                            //    setTimeout(r.function, 0)
+                            //}
+                            if (r.respuesta) {
+                                window.location.href = r.redirect;    
+                            }
+                            else{
+                                $("#cursos-validacion").text(r.error)
+                                                       .show();
+                            }
+                        },
+
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            //block.remove();
+                            //form.prepend('<div class = "alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>')
+                            alert(errorThrown);                        }
+                    });
+                }
+
+                return false;
+            })
+        })
+    </script>
+}
+
+

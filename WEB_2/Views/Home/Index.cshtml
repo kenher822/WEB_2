@@ -1,0 +1,43 @@
+﻿@model List<Model.ALUMNO>
+@{
+    ViewBag.Title = "Alumnos";
+}
+
+<table class="table table-striped">
+    <tr>
+        <td class="text-right">
+            <a class="btn btn-primary" href="~/Home/CRUD" title="Nuevo Registro">Registrar Alumno</a>
+        </td>
+    </tr>
+
+</table>
+
+<h2>Alumnos</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width:200px;">Nombre</th>
+            <th style="width:200px;">Apellido</th>
+            <th style="width:200px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var a in Model)
+            {
+            <tr>
+                <td>@a.NOMBRE</td>
+                <td>@a.APELLIDO</td>
+                <td class="text-right">
+                    <a class="btn btn-default btn-success" href="~/Home/Ver/@a.ID" title="Visualizar">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+                    <a class="btn btn-default btn-info" href="~/Home/CRUD/@a.ID" title="Editar">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
